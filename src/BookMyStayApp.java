@@ -68,15 +68,15 @@ class AdminDashboard {
     public void displaySummary(RoomInventory inventory, GuestManager guestManager, LoyaltyManager loyaltyManager) {
         System.out.println("=== ADMINISTRATIVE DASHBOARD ===");
 
-        System.out.println("\n1. Current Room Inventory:");
+        System.out.println("\n1. Current Room Inventory Status:");
         for (Map.Entry<String, Integer> entry : inventory.getRoomAvailability().entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue() + " available");
+            System.out.println("- " + entry.getKey() + ": " + entry.getValue() + " available");
         }
 
-        System.out.println("\n2. Guest Feedback Overview:");
+        System.out.println("\n2. Guest Satisfaction Records:");
         guestManager.displayFeedback();
 
-        System.out.println("\n3. Loyalty Program Status:");
+        System.out.println("\n3. Loyalty Program Summary:");
         loyaltyManager.displayLoyaltyPoints();
 
         System.out.println("\n================================");
