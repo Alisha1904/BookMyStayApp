@@ -3,7 +3,52 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class - Room (Abstract to prevent instantiation and fix build errors)
+ */
+abstract class Room {
+    private String type;
+    private int beds;
+    private int size;
+    private double price;
 
+    public Room(String type, int beds, int size, double price) {
+        this.type = type;
+        this.beds = beds;
+        this.size = size;
+        this.price = price;
+    }
+
+    public String getType() { return type; }
+    public int getBeds() { return beds; }
+    public int getSize() { return size; }
+    public double getPrice() { return price; }
+}
+
+/**
+ * Subclasses representing specific room types with predefined attributes.
+ */
+class SingleRoom extends Room {
+    public SingleRoom() {
+        super("Single Room", 1, 250, 1500.0);
+    }
+}
+
+class DoubleRoom extends Room {
+    public DoubleRoom() {
+        super("Double Room", 2, 400, 2500.0);
+    }
+}
+
+class SuiteRoom extends Room {
+    public SuiteRoom() {
+        super("Suite Room", 3, 750, 5000.0);
+    }
+}
+
+/**
+ * Class - RoomInventory: The Single Source of Truth
+ */
 class RoomInventory {
     private Map<String, Integer> roomAvailability;
 
@@ -27,21 +72,27 @@ class RoomInventory {
     }
 }
 
+/**
+ * Main Class - BookMyStayApp
+ */
 public class BookMyStayApp {
     public static void main(String[] args) {
         RoomInventory inventory = new RoomInventory();
 
-        List<Room> roomTypes = new ArrayList<>();
-        roomTypes.add(new Room("Single Room", 1, 250, 1500.0));
-        roomTypes.add(new Room("Double Room", 2, 400, 2500.0));
-        roomTypes.add(new Room("Suite Room", 3, 750, 5000.0));
+        // Use Case 3: Registration using Subclasses
+        List<Room> rooms = new ArrayList<>();
+        rooms.add(new SingleRoom());
+        rooms.add(new DoubleRoom());
+        rooms.add(new SuiteRoom());
 
         System.out.println("Hotel Room Inventory Status");
 
-        for (Room room : roomTypes) {
-            int availableCount = inventory.getRoomAvailability().getOrDefault(room.getType(), 0);
+        for (Room room : rooms) {
+            String type = room.getType();
+            // Fetching availability from centralized HashMap
+            int availableCount = inventory.getRoomAvailability().getOrDefault(type, 0);
 
-            System.out.println("\n" + room.getType() + ":");
+            System.out.println("\n" + type + ":");
             System.out.println("Beds: " + room.getBeds());
             System.out.println("Size: " + room.getSize() + " sqft");
             System.out.println("Price per night: " + room.getPrice());
