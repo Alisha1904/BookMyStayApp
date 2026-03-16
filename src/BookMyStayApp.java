@@ -2,6 +2,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Room {
     private String type;
@@ -33,6 +35,35 @@ class RoomInventory {
 
     public Map<String, Integer> getRoomAvailability() {
         return roomAvailability;
+    }
+}
+
+class Reservation {
+    private String guestName;
+    private String roomType;
+
+    public Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
+    }
+
+    public String getGuestName() { return guestName; }
+    public String getRoomType() { return roomType; }
+}
+
+class BookingRequestQueue {
+    private Queue<Reservation> requestQueue = new LinkedList<>();
+
+    public void addRequest(Reservation reservation) {
+        requestQueue.offer(reservation);
+    }
+
+    public Reservation getNextRequest() {
+        return requestQueue.poll();
+    }
+
+    public boolean hasPendingRequests() {
+        return !requestQueue.isEmpty();
     }
 }
 
@@ -88,6 +119,11 @@ public class BookMyStayApp {
         RoomInventory inventory = new RoomInventory();
         GuestManager guestManager = new GuestManager();
         LoyaltyManager loyaltyManager = new LoyaltyManager();
+        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+
+        bookingQueue.addRequest(new Reservation("Abhi", "Single Room"));
+        bookingQueue.addRequest(new Reservation("Subha", "Double Room"));
+        bookingQueue.addRequest(new Reservation("Vanmathi", "Suite Room"));
 
         guestManager.addFeedback("Abhi", 5);
         guestManager.addFeedback("Subha", 4);
