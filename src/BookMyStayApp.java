@@ -1,76 +1,33 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * CLASS - Reservation
- * Represents a booking request made by a guest.
- */
-class Reservation {
-    private String guestName;
-    private String roomType;
+class GuestManager {
+    private Map<String, Integer> guestFeedback;
 
-    public Reservation(String guestName, String roomType) {
-        this.guestName = guestName;
-        this.roomType = roomType;
+    public GuestManager() {
+        this.guestFeedback = new HashMap<>();
     }
 
-    public String getGuestName() { return guestName; }
-    public String getRoomType() { return roomType; }
-}
-
-/**
- * CLASS - BookingRequestQueue
- * Manages booking requests using a FIFO queue to ensure fair allocation.
- */
-class BookingRequestQueue {
-    private Queue<Reservation> requestQueue;
-
-    public BookingRequestQueue() {
-        this.requestQueue = new LinkedList<>();
+    public void addFeedback(String guestName, int score) {
+        guestFeedback.put(guestName, score);
     }
 
-    /** Adds a booking request to the queue. */
-    public void addRequest(Reservation reservation) {
-        requestQueue.offer(reservation);
-    }
-
-    /** Retrieves and removes the next booking request. */
-    public Reservation getNextRequest() {
-        return requestQueue.poll();
-    }
-
-    /** Checks if there are pending requests. */
-    public boolean hasPendingRequests() {
-        return !requestQueue.isEmpty();
+    public void displayFeedback() {
+        System.out.println("Guest Feedback Records:");
+        for (Map.Entry<String, Integer> entry : guestFeedback.entrySet()) {
+            System.out.println("Guest: " + entry.getKey() + " | Score: " + entry.getValue());
+        }
     }
 }
 
-/**
- * MAIN CLASS - UseCase5BookingRequestQueue
- */
 public class BookMyStayApp {
     public static void main(String[] args) {
-        // Display application header
-        System.out.println("Booking Request Queue");
+        GuestManager manager = new GuestManager();
 
-        // Initialize booking queue
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+        manager.addFeedback("Abhi", 5);
+        manager.addFeedback("Subha", 4);
+        manager.addFeedback("Vanmathi", 5);
 
-        // Create booking requests
-        Reservation r1 = new Reservation("Abhi", "Single");
-        Reservation r2 = new Reservation("Subha", "Double");
-        Reservation r3 = new Reservation("Vanmathi", "Suite");
-
-        // Add requests to the queue (FIFO order)
-        bookingQueue.addRequest(r1);
-        bookingQueue.addRequest(r2);
-        bookingQueue.addRequest(r3);
-
-        // Process queued booking requests in FIFO order
-        while (bookingQueue.hasPendingRequests()) {
-            Reservation next = bookingQueue.getNextRequest();
-            System.out.println("Processing booking for Guest: " + next.getGuestName() +
-                    ", Room Type: " + next.getRoomType());
-        }
+        manager.displayFeedback();
     }
 }
