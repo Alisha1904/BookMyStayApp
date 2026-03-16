@@ -1,33 +1,33 @@
 import java.util.HashMap;
 import java.util.Map;
 
-class GuestManager {
-    private Map<String, Integer> guestFeedback;
+class LoyaltyManager {
+    private Map<String, Integer> loyaltyPoints;
 
-    public GuestManager() {
-        this.guestFeedback = new HashMap<>();
+    public LoyaltyManager() {
+        this.loyaltyPoints = new HashMap<>();
     }
 
-    public void addFeedback(String guestName, int score) {
-        guestFeedback.put(guestName, score);
+    public void addPoints(String guestName, int points) {
+        loyaltyPoints.put(guestName, loyaltyPoints.getOrDefault(guestName, 0) + points);
     }
 
-    public void displayFeedback() {
-        System.out.println("Guest Feedback Records:");
-        for (Map.Entry<String, Integer> entry : guestFeedback.entrySet()) {
-            System.out.println("Guest: " + entry.getKey() + " | Score: " + entry.getValue());
+    public void displayLoyaltyPoints() {
+        System.out.println("Guest Loyalty Points:");
+        for (Map.Entry<String, Integer> entry : loyaltyPoints.entrySet()) {
+            System.out.println("Guest: " + entry.getKey() + " | Points: " + entry.getValue());
         }
     }
 }
 
 public class BookMyStayApp {
     public static void main(String[] args) {
-        GuestManager manager = new GuestManager();
+        LoyaltyManager manager = new LoyaltyManager();
 
-        manager.addFeedback("Abhi", 5);
-        manager.addFeedback("Subha", 4);
-        manager.addFeedback("Vanmathi", 5);
+        manager.addPoints("Abhi", 100);
+        manager.addPoints("Subha", 150);
+        manager.addPoints("Vanmathi", 200);
 
-        manager.displayFeedback();
+        manager.displayLoyaltyPoints();
     }
 }
